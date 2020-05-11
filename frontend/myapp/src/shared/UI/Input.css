@@ -1,0 +1,27 @@
+.input {
+  font-size: 1.1em;
+  padding: 0.2rem;
+  line-height: 1.5;
+  border-radius: 0.1rem;
+  border: 1px solid lightsteelblue;
+  overflow-x: visible;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: block;
+  flex-wrap: nowrap;
+}
+
+.input-group label {
+  display: inline-block;
+}
+
+@media (max-width: 1420px) {
+  .input-group {
+    flex-direction: column;
+  }
+}

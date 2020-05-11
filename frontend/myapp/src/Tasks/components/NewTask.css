@@ -1,0 +1,34 @@
+.tasksForm {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tasksForm__input {
+  width: 60%;
+  margin: 1rem 2rem;
+}
+
+.tasksForm__button {
+  padding: 0;
+}
+
+@media (max-width: 980px) {
+  .tasksForm {
+    flex-direction: column;
+    margin-left: 0;
+  }
+  .tasksForm input {
+    margin: 2rem 1rem;
+    width: 90%;
+    line-height: 2;
+  }
+  .tasksForm button {
+    width: 90%;
+    font-size: 1em;
+  }
+  .fa-times-circle {
+    align-self: center;
+  }
+}

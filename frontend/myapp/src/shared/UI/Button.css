@@ -1,0 +1,32 @@
+.button {
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  font-size: 1em;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  width: 30%;
+  color: white;
+  height: 3rem;
+}
+
+.button:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+.button:disabled {
+  background-color: #dc3545;
+  color: black;
+}
+.primary {
+  background-color: #007bff;
+}
+
+.success {
+  background-color: lightgreen;
+}
+
+.danger {
+  background-color: #dc3545;
+}

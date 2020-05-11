@@ -1,5 +1,23 @@
 .layout {
   margin: 0 auto;
-  width: 60%;
+  width: 50%;
   font-size: 22px;
+  padding: 2rem;
+}
+
+@media (max-width: 1280px) {
+  body {
+    text-align: center;
+  }
+  .layout {
+    width: 100%;
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 980px) {
+  .layout {
+    width: 100%;
+    font-size: 30px;
+  }
 }
