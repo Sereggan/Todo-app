@@ -27,7 +27,17 @@ const signup = (req, res, next) => {
   res.status(201).json({ userId: newUser.id, email: newUser.email });
 };
 
-const login = (res, req, next) => {};
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  let existingUser = DUMMY_USERS.filter((user) => {
+    return user.password === password && user.email === email;
+  })[0];
+  console.log(existingUser);
+  res.json({
+    userId: existingUser.id,
+    email: existingUser.email,
+  });
+};
 
 exports.signup = signup;
 exports.login = login;
