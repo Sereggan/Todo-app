@@ -13,12 +13,12 @@ const Tasks = (props) => {
     {
       id: 2,
       text: "Task 2",
-      status: "delayed",
+      status: "Delayed",
     },
     {
       id: 3,
       text: "Task 3",
-      status: "cancelled",
+      status: "Cancelled",
     },
   ]);
 
@@ -48,9 +48,9 @@ const Tasks = (props) => {
     })[0];
 
     if (targetTask.status === "Active") {
-      targetTask.status = "delayed";
-    } else if (targetTask.status === "delayed") {
-      targetTask.status = "cancelled";
+      targetTask.status = "Delayed";
+    } else if (targetTask.status === "Delayed") {
+      targetTask.status = "Dancelled";
     } else {
       targetTask.status = "Active";
     }
