@@ -1,4 +1,20 @@
-.input {
+.input-group {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-group label {
+  display: inline-block;
+  width: 200px;
+  max-width: 30%;
+}
+
+.input-group input {
+  display: inline-block;
+  width: 80%;
   font-size: 1.1em;
   padding: 0.2rem;
   line-height: 1.5;
@@ -7,21 +23,10 @@
   overflow-x: visible;
 }
 
-.input-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  display: block;
-  flex-wrap: nowrap;
-}
-
-.input-group label {
-  display: inline-block;
-}
-
-@media (max-width: 1420px) {
-  .input-group {
-    flex-direction: column;
+@media (max-width: 768px) {
+  .input-group label {
+    font-size: 1em;
+    min-width: 100%;
+    text-align: center;
   }
 }

@@ -5,7 +5,7 @@ import "./Input.css";
 const Input = (props) => {
   const element = (
     <input
-      className={`input ${props.className}`}
+      className={`${props.className}`}
       id={props.id}
       type={props.type}
       onChange={props.onChange}

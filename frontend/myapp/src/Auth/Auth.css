@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 }
@@ -20,10 +21,14 @@
   cursor: pointer;
   font-size: 1em;
 }
+
 .auth-form__submit {
   margin: 1em 0 1rem -1rem;
   cursor: pointer;
   padding: 0 2rem;
+  background-color: #6c5ce7;
+  padding: 0.1em 1re;
+  text-align: center;
 }
 
 .button_center {
@@ -34,14 +39,19 @@
   font-size: 1.5em;
 }
 
-@media (max-width: 980px) {
+.auth-form__button {
+  width: 40%;
+}
+
+@media (max-width: 768px) {
   .auth-form {
     width: 100%;
   }
 
   .auth-form__button {
-    width: 80%;
+    width: 100%;
     margin: 1rem;
+    padding: 0 0 1rem 0;
   }
   .auth-form__submit {
     width: 80%;

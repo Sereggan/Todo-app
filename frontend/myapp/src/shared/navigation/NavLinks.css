@@ -6,30 +6,20 @@
   align-items: center;
 }
 
-.nav-links a {
-  border: 1px solid transparent;
-  color: #292929;
-  text-decoration: none;
-  border-radius: 5%;
-  padding: 0.5rem;
-}
-
-.nav-links.active {
-  background-color: black;
-}
-
 .nav-links button {
   border: 1px solid white;
   color: black;
   cursor: pointer;
   font-size: 1em;
   line-height: 1.5;
-  background: transparent;
+  background-color: #fd79a8;
+  padding: 0.5rem 1rem;
+  border-radius: 10%;
 }
 
 .nav-links button:hover,
 .nav-links button:active {
-  background: #f8dfa0;
+  background: #d63031;
   border-color: #292929;
   color: #292929;
 }
@@ -37,12 +27,12 @@
 .nav-links a:hover,
 .nav-links a:active,
 .nav-links a.active {
-  background: #f8dfa0;
-  border-color: #292929;
   color: #292929;
+  text-decoration: none;
+  border-bottom: 5px solid #55efc4;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 768px) {
   .nav-links {
     flex-direction: column;
   }

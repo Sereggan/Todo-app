@@ -8,10 +8,24 @@ import Button from "../shared/UI/Button";
 
 const Auth = (props) => {
   const [isLoginMode, setIsLoginMode] = useState(false);
+  const [inputName, setInputName] = useState("");
+  const [inputMail, setInputMail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+
   const auth = useContext(AuthContext);
   const formHandler = (event) => {
     event.preventDefault();
     auth.login();
+  };
+
+  const inputNameHandler = (event) => {
+    setInputName(event.target.value);
+  };
+  const inputMailHandler = (event) => {
+    setInputMail(event.target.value);
+  };
+  const inputPasswordHandler = (event) => {
+    setInputPassword(event.target.value);
   };
 
   const switchHandler = useCallback(() => {
@@ -22,10 +36,13 @@ const Auth = (props) => {
   return (
     <React.Fragment>
       <div className="auth-page">
+        <Button onClick={switchHandler} className="primary auth-form__button">
+          Switch to {!isLoginMode ? "Login" : "Signup"}
+        </Button>
         <form className="auth-form center" onSubmit={formHandler}>
-          <p className="auth-form__title">
+          <h2 className="auth-form__title">
             {isLoginMode ? "Login" : "Signup"} Required
-          </p>
+          </h2>
           {!isLoginMode && <label htmlFor="name">Your name</label>}
 
           {!isLoginMode && (
@@ -34,6 +51,8 @@ const Auth = (props) => {
               id="name"
               placeholder="enter your name"
               className="auth-form__input"
+              value={inputName}
+              onChange={inputNameHandler}
             />
           )}
           <br />
@@ -44,6 +63,8 @@ const Auth = (props) => {
             id="email"
             placeholder="enter email"
             className="auth-form__input"
+            value={inputMail}
+            onChange={inputMailHandler}
           />
           <br />
           <label htmlFor="password">Your password</label>
@@ -53,12 +74,11 @@ const Auth = (props) => {
             id="password"
             placeholder="enter password"
             className="auth-form__input"
+            value={inputPassword}
+            onChange={inputPasswordHandler}
           />
           <Input type="submit" value="Login" className="auth-form__submit" />
         </form>
-        <Button onClick={switchHandler} className="primary auth-form__button">
-          Switch to {!isLoginMode ? "Login" : "Signup"}
-        </Button>
       </div>
     </React.Fragment>
   );

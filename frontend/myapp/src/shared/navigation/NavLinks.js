@@ -10,20 +10,6 @@ const NavLinks = (props) => {
   return (
     <ul className="nav-links">
       {auth.isLoggedIn && (
-        <li>
-          <NavLink to="/" exact>
-            My Tasks
-          </NavLink>
-        </li>
-      )}
-      {!auth.isLoggedIn && (
-        <li>
-          <NavLink to="/auth" exact>
-            Authentication
-          </NavLink>
-        </li>
-      )}
-      {auth.isLoggedIn && (
         <li>{<button onClick={auth.logout}>Logout</button>}</li>
       )}
     </ul>

@@ -1,5 +1,6 @@
 .button {
   display: inline-block;
+  padding: 0.5rem 1rem;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
@@ -7,7 +8,6 @@
   font-size: 1em;
   line-height: 1.5;
   border-radius: 0.25rem;
-  width: 30%;
   color: white;
   height: 3rem;
 }
@@ -21,12 +21,4 @@
 }
 .primary {
   background-color: #007bff;
-}
-
-.success {
-  background-color: lightgreen;
-}
-
-.danger {
-  background-color: #dc3545;
 }

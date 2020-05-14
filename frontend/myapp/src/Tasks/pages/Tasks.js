@@ -8,17 +8,17 @@ const Tasks = (props) => {
     {
       id: 1,
       text: "Task 1",
-      status: "Active",
+      status: "active",
     },
     {
       id: 2,
       text: "Task 2",
-      status: "Delayed",
+      status: "delayed",
     },
     {
       id: 3,
       text: "Task 3",
-      status: "Cancelled",
+      status: "cancelled",
     },
   ]);
 
@@ -31,7 +31,7 @@ const Tasks = (props) => {
     }
     setTasks((prevTasks) => [
       ...prevTasks,
-      { id: tid, text: text, status: "Active" },
+      { id: tid, text: text, status: "active" },
     ]);
   };
 
@@ -47,12 +47,12 @@ const Tasks = (props) => {
       return task.id === tid;
     })[0];
 
-    if (targetTask.status === "Active") {
-      targetTask.status = "Delayed";
-    } else if (targetTask.status === "Delayed") {
-      targetTask.status = "Dancelled";
+    if (targetTask.status === "active") {
+      targetTask.status = "delayed";
+    } else if (targetTask.status === "delayed") {
+      targetTask.status = "cancelled";
     } else {
-      targetTask.status = "Active";
+      targetTask.status = "active";
     }
     let newTasks = [];
 

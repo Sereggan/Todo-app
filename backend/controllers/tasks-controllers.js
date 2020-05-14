@@ -1,3 +1,5 @@
+const HttpError = require("../models/http-error");
+
 let DUMMY_TASKS = [
   {
     id: 1,
@@ -24,6 +26,9 @@ const getTasks = (req, res, next) => {
   const returnTasks = DUMMY_TASKS.filter((task) => {
     return task.creator === authorId;
   });
+  if (!returnTasks) {
+    return new HttpError("Could not find tasks", 404);
+  }
   res.json({ tasks: returnTasks });
 };
 
