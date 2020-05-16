@@ -12,9 +12,11 @@ const TasksList = (props) => {
         return (
           <TasksItem
             task={task}
-            key={task.id}
             removeTask={props.removeTask}
             changeStatus={props.changeStatus}
+            key={task._id}
+            updateTasks={props.updateTasks}
+            setIsLoading={props.setIsLoading}
           />
         );
       })}

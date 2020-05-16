@@ -7,13 +7,15 @@
 }
 
 .input-group label {
-  display: inline-block;
-  width: 200px;
-  max-width: 30%;
+  display: block;
+  min-width: 400px;
+  width: 30%;
+  text-overflow: clip;
+  max-width: 90%;
 }
 
 .input-group input {
-  display: inline-block;
+  display: block;
   width: 80%;
   font-size: 1.1em;
   padding: 0.2rem;
@@ -22,11 +24,19 @@
   border: 1px solid lightsteelblue;
   overflow-x: visible;
 }
+.input-group input:disabled {
+  background-color: red;
+  color: black;
+}
 
 @media (max-width: 768px) {
   .input-group label {
     font-size: 1em;
     min-width: 100%;
     text-align: center;
+  }
+
+  .input-group input {
+    min-width: 300px;
   }
 }

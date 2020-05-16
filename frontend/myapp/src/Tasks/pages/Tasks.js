@@ -1,77 +1,97 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 
+import { AuthContext } from "../../shared/context/auth-context";
 import NewTask from "../components/NewTask";
 import TasksList from "../components/TasksList";
+import LoadingSpinner from "../../shared/UI/LoadingSpinner";
 
 const Tasks = (props) => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: "Task 1",
-      status: "active",
-    },
-    {
-      id: 2,
-      text: "Task 2",
-      status: "delayed",
-    },
-    {
-      id: 3,
-      text: "Task 3",
-      status: "cancelled",
-    },
-  ]);
+  const auth = useContext(AuthContext);
 
-  const addTask = (text) => {
-    let tid;
-    if (tasks.length === 0) {
-      tid = 1;
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetch, setIsFetch] = useState(0);
+  const [tasks, setTasks] = useState("");
+
+  const changeStatus = useCallback(async (tid, currentStatus) => {
+    setIsLoading(true);
+    let newStatus;
+    if (currentStatus === "active") {
+      newStatus = "delayed";
+    } else if (currentStatus === "delayed") {
+      newStatus = "cancelled";
     } else {
-      tid = tasks[tasks.length - 1].id + 1;
+      newStatus = "active";
     }
-    setTasks((prevTasks) => [
-      ...prevTasks,
-      { id: tid, text: text, status: "active" },
-    ]);
-  };
-
-  const deleteTask = (tid) => {
-    const filteredTasks = tasks.filter((task) => {
-      return tid !== task.id;
+    let params = JSON.stringify({
+      status: newStatus,
+      userId: auth.userId,
     });
-    setTasks(filteredTasks);
-  };
+    await fetch(`http://localhost:5000/api/tasks/${tid}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: "Bearer " + auth.token,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: params,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.message);
+        }
+        return response.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setIsFetch((count) => count - 1);
+    setIsLoading(false);
+  });
 
-  const changeStatus = (tid) => {
-    const targetTask = tasks.filter((task) => {
-      return task.id === tid;
-    })[0];
+  useEffect(() => {
+    const fetchTasks = async () => {
+      if (auth.token && auth.userId) {
+        setIsLoading(true);
+        try {
+          const responseData = await fetch(
+            `http://localhost:5000/api/tasks/user/${auth.userId}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: "Bearer " + auth.token,
+              },
+            }
+          )
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(response.message);
+              }
+              return response.json();
+            })
+            .catch((err) => {});
 
-    if (targetTask.status === "active") {
-      targetTask.status = "delayed";
-    } else if (targetTask.status === "delayed") {
-      targetTask.status = "cancelled";
-    } else {
-      targetTask.status = "active";
-    }
-    let newTasks = [];
-
-    for (let task in tasks) {
-      if (tasks[task].id === targetTask.id) {
-        newTasks.push(targetTask);
-      } else {
-        newTasks.push(tasks[task]);
+          if (responseData) {
+            setTasks(responseData.tasks);
+          } else {
+            setTasks(null);
+          }
+        } catch (err) {
+          throw err;
+        }
+        setIsLoading(false);
       }
-    }
-    setTasks(newTasks);
-  };
+    };
+    fetchTasks();
+  }, [auth.userId, auth.token, isFetch]);
+
   let tasksList;
-  if (tasks.length !== 0) {
+  if (tasks) {
     tasksList = (
       <TasksList
         tasks={tasks}
-        removeTask={deleteTask}
         changeStatus={changeStatus}
+        updateTasks={setIsFetch}
+        setIsLoading={setIsLoading}
       />
     );
   } else {
@@ -85,8 +105,13 @@ const Tasks = (props) => {
   }
   return (
     <React.Fragment>
-      <NewTask addTask={addTask} />
-      {tasksList}
+      <NewTask updateTasks={setIsFetch} setIsLoading={setIsLoading} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && tasks && tasksList}
     </React.Fragment>
   );
 };

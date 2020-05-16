@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useContext } from "react";
+import { AuthContext } from "../../shared/context/auth-context";
 
 import "./NewTask.css";
 
@@ -7,7 +8,41 @@ import Input from "../../shared/UI/Input";
 
 const NewTask = (props) => {
   const [inputText, setInputText] = useState("");
-  const { addTask } = props;
+  const { updateTasks, setIsLoading } = props;
+  const auth = useContext(AuthContext);
+
+  const addTask = useCallback(
+    async (text) => {
+      setIsLoading(true);
+      const params = JSON.stringify({
+        creator: auth.userId,
+        status: "active",
+        content: text,
+      });
+      try {
+        const responseData = await fetch(`http://localhost:5000/api/tasks`, {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${auth.token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: params,
+        })
+          .then((respone) => {
+            return respone.json();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        updateTasks((counter) => counter + 1);
+      } catch (err) {
+        console.log(err);
+      }
+      setIsLoading(false);
+    },
+    [auth.token, auth.userId]
+  );
 
   const buttonHandler = () => {
     if (inputText !== "") {

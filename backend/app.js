@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+var cors = require("cors");
 
+const mongoose = require("mongoose");
 const tasksRoutes = require("./routes/tasks-routes");
 const usersRoutes = require("./routes/users-routes");
 
@@ -9,6 +11,8 @@ const HttpError = require("./models/http-error");
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(cors());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -29,6 +33,18 @@ app.use((req, res, next) => {
   res.json({ error: error.message || "An unknown error occurred!", code: 404 });
 });
 
-console.log("Created a server");
-
-app.listen(5000);
+mongoose
+  .connect(
+    `mongodb+srv://user1:c3Riw802Y3XLv1pH@cluster0-wcdgh.mongodb.net/test?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log("connected to db");
+    app.listen(process.env.PORT || 5000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
