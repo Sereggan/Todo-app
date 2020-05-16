@@ -2,6 +2,7 @@ import React, { useState, useContext, useCallback } from "react";
 
 import "./Auth.css";
 
+import ErrorModal from "../shared/UI/ErrorModal";
 import LoadingSpinner from "../shared/UI/LoadingSpinner";
 import { AuthContext } from "../shared/context/auth-context";
 import Input from "../shared/UI/Input";
@@ -13,6 +14,7 @@ const Auth = (props) => {
   const [inputMail, setInputMail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const auth = useContext(AuthContext);
 
@@ -41,7 +43,7 @@ const Auth = (props) => {
             password: inputPassword,
           });
           const responseData = await fetch(
-            "http://localhost:5000/api/users/login",
+            `${process.env.REACT_APP_BACKEND_URL}/users/login`,
             {
               method: "POST",
               headers: {
@@ -51,17 +53,23 @@ const Auth = (props) => {
               body: params,
             }
           )
-            .then((respone) => {
-              return respone.json();
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(response.message);
+              }
+              return response.json();
             })
             .catch((err) => {
-              console.log(err);
               setIsLoading(false);
+              throw new Error(err.message);
             });
           switchHandler();
 
           auth.login(responseData.userId, responseData.token);
-        } catch (err) {}
+        } catch (err) {
+          setIsLoading(false);
+          setError(err.message || "Something went wrong, please try again");
+        }
       } else {
         try {
           const params = JSON.stringify({
@@ -69,7 +77,7 @@ const Auth = (props) => {
             email: inputMail,
             password: inputPassword,
           });
-          await fetch("http://localhost:5000/api/users/signup", {
+          await fetch(process.env.REACT_APP_BACKEND_URL + "/users/signup", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -82,17 +90,27 @@ const Auth = (props) => {
             })
             .catch((err) => {
               setIsLoading(false);
+              throw new Error(err.message);
             });
           switchHandler();
-        } catch (err) {}
+        } catch (err) {
+          setIsLoading(false);
+          setError(err.message || "Something went wrong, please try again");
+        }
       }
     };
-    return sendForm();
-
     setIsLoading(false);
+    return sendForm();
   };
+
+  const errorhandler = () => {
+    setError(null);
+  };
+
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={errorhandler} />
+
       {isLoading && <LoadingSpinner asOverlay />}
       <div className="auth-page">
         <Button onClick={switchHandler} className="primary auth-form__button">

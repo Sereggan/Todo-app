@@ -20,7 +20,7 @@ const NewTask = (props) => {
         content: text,
       });
       try {
-        const responseData = await fetch(`http://localhost:5000/api/tasks`, {
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks`, {
           method: "POST",
           headers: {
             authorization: `Bearer ${auth.token}`,
@@ -41,7 +41,7 @@ const NewTask = (props) => {
       }
       setIsLoading(false);
     },
-    [auth.token, auth.userId]
+    [auth.token, auth.userId, setIsLoading, updateTasks]
   );
 
   const buttonHandler = () => {

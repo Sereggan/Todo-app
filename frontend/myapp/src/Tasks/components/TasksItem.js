@@ -8,33 +8,36 @@ const TasksItem = (props) => {
   const { task, changeStatus, updateTasks, setIsLoading } = props;
   const auth = useContext(AuthContext);
 
-  const deleteTask = useCallback(async (id) => {
-    try {
-      setIsLoading(true);
-      await fetch(`http://localhost:5000/api/tasks/${task.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({ userId: auth.userId }),
-      })
-        .then((response) => {
-          return response.json();
+  const deleteTask = useCallback(
+    async (id) => {
+      try {
+        setIsLoading(true);
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/tasks/${task.id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ userId: auth.userId }),
         })
-        .then((message) => {
-          //console.log(message);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      updateTasks((counter) => counter + 1);
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
-  });
+          .then((response) => {
+            return response.json();
+          })
+          .then((message) => {
+            //console.log(message);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        updateTasks((counter) => counter + 1);
+      } catch (err) {
+        console.log(err);
+      }
+      setIsLoading(false);
+    },
+    [auth.token, auth.userId, setIsLoading, updateTasks, task.id]
+  );
 
   const newStatus = () => {
     changeStatus(task.id, task.status);

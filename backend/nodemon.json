@@ -1,7 +1,8 @@
 {
   "env": {
     "DB_USER": "user",
-    "DB_PASSWORD": "password",
-    "DB_NAME": "dbName"
+    "DB_PASSWORD": "password11",
+    "DB_NAME": "dbName",
+    "JWT_KEY": "SUPER_s3rt3t_key!"
   }
 }
